@@ -1,11 +1,217 @@
 <!DOCTYPE html>
-<html>
+<html lang="pl">
 <head>
-    <meta charset="UTF-8">
-    <title>Twoja Hospitalizacja</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Allianz – Trener AI</title>
+
+<style>
+body{
+    margin:0;
+    font-family:'Segoe UI',sans-serif;
+    background:#f4f6f8;
+    text-align:center;
+}
+
+header{
+    background:#003781;
+    color:white;
+    padding:30px;
+}
+
+header h1{
+    margin:0;
+    font-size:34px;
+}
+
+.home{
+    padding:60px 20px;
+}
+
+.hero-img{
+    max-width:480px;
+    width:90%;
+    margin-bottom:50px;
+}
+
+.main-buttons{
+    display:flex;
+    justify-content:center;
+    gap:40px;
+    flex-wrap:wrap;
+}
+
+.main-buttons button{
+    padding:22px 50px;
+    font-size:18px;
+    font-weight:600;
+    border:none;
+    border-radius:12px;
+    cursor:pointer;
+    background:#003781;
+    color:white;
+    transition:0.25s;
+    box-shadow:0 8px 20px rgba(0,0,0,0.08);
+}
+
+.main-buttons button:hover{
+    background:#002a63;
+    transform:translateY(-2px);
+}
+
+.password-box{
+    max-width:400px;
+    margin:80px auto;
+}
+
+input{
+    padding:12px;
+    width:100%;
+    margin-bottom:15px;
+    border:1px solid #ccc;
+    border-radius:6px;
+}
+
+button.primary{
+    background:#003781;
+    color:white;
+    padding:12px 20px;
+    border:none;
+    border-radius:6px;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+.section{
+    display:none;
+    padding:40px;
+    max-width:1100px;
+    margin:auto;
+}
+
+.admin-box{
+    max-width:500px;
+    margin:auto;
+}
+
+.back-btn{
+    margin-top:30px;
+    background:#666;
+}
+</style>
 </head>
+
 <body>
-    <h1>Twoja Hospitalizacja</h1>
-    <p>Strona działa 🚀</p>
+
+<header>
+    <h1>Leczenie Szpitalne w Polsce – Allianz Trener AI</h1>
+</header>
+
+<!-- STRONA STARTOWA -->
+
+<div id="home" class="home">
+
+    <img src="./allianz.png" alt="Allianz" class="hero-img">
+
+    <div class="main-buttons">
+        <button onclick="showTrainingLogin()">Trening i Zaliczenie</button>
+        <button onclick="showAdminLogin()">Zarządzaj</button>
+    </div>
+</div>
+
+<!-- LOGIN TRENING -->
+
+<div id="training-login" class="password-box" style="display:none;">
+    <h2>Dostęp do Treningu</h2>
+    <input type="password" id="trainingPasswordInput" placeholder="Podaj hasło">
+    <button class="primary" onclick="checkTrainingPassword()">Wejdź</button>
+    <button class="primary back-btn" onclick="goHome()">Powrót</button>
+</div>
+
+<!-- TRENING -->
+
+<div id="training-content" class="section">
+    <elevenlabs-convai agent-id="agent_8701kjdtqwa1f3kbf4h7sgbmtc5t"></elevenlabs-convai>
+    <script src="https://unpkg.com/@elevenlabs/convai-widget-embed" async type="text/javascript"></script>
+    <button class="primary back-btn" onclick="goHome()">Powrót</button>
+</div>
+
+<!-- LOGIN ADMIN -->
+
+<div id="admin-login" class="password-box" style="display:none;">
+    <h2>Dostęp Administracyjny</h2>
+    <input type="password" id="adminPasswordInput" placeholder="Podaj hasło administratora">
+    <button class="primary" onclick="checkAdminPassword()">Wejdź</button>
+    <button class="primary back-btn" onclick="goHome()">Powrót</button>
+</div>
+
+<!-- ADMIN -->
+
+<div id="admin-content" class="section">
+    <div class="admin-box">
+        <h2>Zarządzanie</h2>
+        <h3>Zmień hasło do Treningu</h3>
+        <input type="text" id="newTrainingPassword" placeholder="Nowe hasło">
+        <button class="primary" onclick="changeTrainingPassword()">Zmień hasło</button>
+        <button class="primary back-btn" onclick="goHome()">Powrót</button>
+    </div>
+</div>
+
+<script>
+let trainingPassword = "Allianz2026";
+let adminPassword = "Tomek123";
+
+function hideAll(){
+    document.getElementById("home").style.display="none";
+    document.getElementById("training-login").style.display="none";
+    document.getElementById("training-content").style.display="none";
+    document.getElementById("admin-login").style.display="none";
+    document.getElementById("admin-content").style.display="none";
+}
+
+function goHome(){
+    hideAll();
+    document.getElementById("home").style.display="block";
+}
+
+function showTrainingLogin(){
+    hideAll();
+    document.getElementById("training-login").style.display="block";
+}
+
+function showAdminLogin(){
+    hideAll();
+    document.getElementById("admin-login").style.display="block";
+}
+
+function checkTrainingPassword(){
+    if(document.getElementById("trainingPasswordInput").value === trainingPassword){
+        hideAll();
+        document.getElementById("training-content").style.display="block";
+    } else {
+        alert("Nieprawidłowe hasło.");
+    }
+}
+
+function checkAdminPassword(){
+    if(document.getElementById("adminPasswordInput").value === adminPassword){
+        hideAll();
+        document.getElementById("admin-content").style.display="block";
+    } else {
+        alert("Nieprawidłowe hasło administratora.");
+    }
+}
+
+function changeTrainingPassword(){
+    const newPass = document.getElementById("newTrainingPassword").value;
+    if(newPass.length < 4){
+        alert("Hasło musi mieć min. 4 znaki.");
+        return;
+    }
+    trainingPassword = newPass;
+    alert("Hasło zmienione.");
+}
+</script>
+
 </body>
 </html>
